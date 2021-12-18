@@ -1,11 +1,9 @@
-#TODO ensure that only admins or the respective user can access their endpoints
-#TODO Move admin calls behind their own /admin/ endpoint
 from flask import jsonify, request, url_for, session
 from flask_login import login_required
 from volunteercore import db
 from datetime import datetime
 from volunteercore.api import bp
-from volunteercore.volops.models import Opportunity, Hours
+from volunteercore.volops.models import Hours
 from volunteercore.api.errors import bad_request
 from volunteercore.decorators import requires_roles
 
@@ -29,8 +27,9 @@ def admin_get_month_hours_api(id,month):
         return bad_request('this entry does not exist')
     return jsonify(data.to_dict()),200
 
-# API PUT endpoint to update an individuals hours
-@bp.route('/api/admin/hours/update', methods=['PUT'])
+# API PUT endpoint to manually modify an individuals hours
+#TODO this needs work
+@bp.route('/api/admin/hours/put', methods=['PUT'])
 @login_required
 @requires_roles('Admin')
 def admin_create_hours_api():
