@@ -105,6 +105,14 @@ def upgrade():
     sa.ForeignKeyConstraint(['opportunity_id'], ['opportunity.id'], ),
     sa.ForeignKeyConstraint(['tags_id'], ['tag.id'], )
     )
+    op.create_table('hours',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('user_id', sa.Integer(), nullable=False),
+    sa.Column('month_hours', sa.Integer()),
+    sa.Column('datetime',sa.String(length=6)),
+    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
     # ### end Alembic commands ###
 
 

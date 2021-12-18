@@ -22,3 +22,4 @@ six==1.13.0
 SQLAlchemy==1.3.12
 Werkzeug==0.16.0
 Whoosh==2.7.4
+flask-session==0.4.0

@@ -97,7 +97,7 @@ def get_tags_api():
         Tag.query, page, per_page, 'api.get_tags_api')
     return jsonify(data)
 
-# API PUSH endpoint to update a tag
+# API PUT endpoint to update a tag
 @bp.route('/api/tags/<int:id>', methods=['PUT'])
 @login_required
 @requires_roles('Admin')

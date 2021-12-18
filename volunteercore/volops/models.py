@@ -10,31 +10,6 @@ tags = db.Table(
 )
 
 
-class Partner(PagininatedAPIMixin, db.Model):
-    __searchable__ = ['name']
-
-    id = db.Column(db.Integer(), primary_key=True, index=True)
-    name = db.Column(db.String(200), index=True, unique=True)
-    opportunities = db.relationship(
-        'Opportunity', backref='partner', lazy='dynamic')
-
-    def to_dict(self):
-        data = {
-            'id': self.id,
-            'name': self.name,
-            'opportunity_count': self.opportunities.count()
-        }
-        return data
-
-    def from_dict(self, data, new_partner=False):
-        for field in ['name']:
-            if field in data:
-                setattr(self, field, data[field])
-
-    def __repr__(self):
-        return '<Partner {}>'.format(self.name)
-
-
 class Opportunity(PagininatedAPIMixin, db.Model):
     __tablename__ = 'opportunity'
     __searchable__ = ['tags_string']
@@ -54,12 +29,8 @@ class Opportunity(PagininatedAPIMixin, db.Model):
     location_state = db.Column(db.String(20))
     location_zip = db.Column(db.String(10))
     tags_string = db.Column(db.String(200))
-    partner_string = db.Column(db.String(100))
     frequency_unit = db.Column(db.String(25))
     frequency_modifier = db.Column(db.String(5))
-
-    # One to many relationships
-    partner_id = db.Column(db.Integer, db.ForeignKey('partner.id'))
 
     # Many to many relations
     tags = db.relationship(
@@ -95,9 +66,6 @@ class Opportunity(PagininatedAPIMixin, db.Model):
             tags_string_total = tags_string_total + tag.name + " "
         self.tags_string = tags_string_total
 
-    def update_partner_string(self):
-        self.partner_string = self.partner.name
-
     def to_dict(self):
         data = {
             'id': self.id,
@@ -115,9 +83,6 @@ class Opportunity(PagininatedAPIMixin, db.Model):
             'location_state': self.location_state,
             'location_zip': self.location_zip,
             'tag_count': len(self.tags),
-            'partner_name': Partner.query.filter_by(
-                id=self.partner_id).first().name,
-            'partner_string': self.partner_string,
             'frequency_unit': self.frequency_unit,
             'frequency_modifier': self.frequency_modifier
         }
@@ -132,8 +97,8 @@ class Opportunity(PagininatedAPIMixin, db.Model):
             'end_date', 'training_time_hours',
             'volunteers_needed', 'location_street',
             'location_city', 'location_state',
-            'location_zip', 'tag_count', 'partner_id',
-            'frequency_unit', 'frequency_modifier'
+            'location_zip', 'tag_count', 'frequency_unit', 
+            'frequency_modifier'
         ]
         for field in field_names:
             if field in data:
@@ -205,3 +170,36 @@ class Tag(PagininatedAPIMixin, db.Model):
 
     def __repr__(self):
         return '<Tag {}>'.format(self.name)
+
+class Hours(PagininatedAPIMixin, db.Model):
+    #__tablename__ = 'hours'
+
+    #NEED TO CHECK IF DATETIME COLUMN
+    id = db.Column(db.Integer(), primary_key=True, index=True)
+    user_id = db.Column(db.Integer())
+    month_hours = db.Column(db.Integer())
+    #We expect a value in the format YYYY-MM
+    datetime = db.Column(db.Text)
+  
+    def get_total_hours(self, name):
+        hours = sum(Hours.query.filter_by(name=name).first().hours)
+        return hours
+
+    def to_dict(self):
+        data = {
+            "user_id":self.user_id,
+            "month_hours":self.month_hours,
+            "datetime":self.datetime
+        }
+        return data
+    
+    def from_dict(self, data):
+        field_names = [
+            'month_hours','datetime','user_id'
+        ]
+        for field in field_names:
+            if field in data:
+                setattr(self, field, data[field])
+
+    def __repr__(self):
+        return '<Hours {}>'.format(self.id)

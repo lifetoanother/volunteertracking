@@ -7,7 +7,7 @@ from flask_login import login_required
 from config import Config
 from volunteercore import db
 from volunteercore.api import bp
-from volunteercore.volops.models import Partner, Opportunity, \
+from volunteercore.volops.models import Opportunity, \
     Tag, TagCategory
 from volunteercore.api.errors import bad_request
 from volunteercore.decorators import requires_roles
@@ -91,16 +91,6 @@ def import_opportunities():
                 if row['location_street2']:
                     Opportunity.location_street = row['location_street1'] \
                         + ', ' + row['location_street2']
-                if not Partner.query.filter_by(
-                        name=row['partner']).first():
-                    partner = Partner(name=row['partner'])
-                    db.session.add(partner)
-                    db.session.commit()
-                    index_one_record(partner)
-                opportunity.partner_id = Partner.query.filter_by(
-                    name=row['partner']).first().id
-                opportunity.partner_string = Partner.query.filter_by(
-                    name=row['partner']).first().name
                 db.session.add(opportunity)
                 db.session.commit()
                 index_one_record(opportunity)

@@ -1,4 +1,4 @@
-The Volunteer Core project is a web app that assists in better management of Volunteer Core operations. It will track and provide matching suggestions of volunteer partners, opportunities for volunteers, and volunteers. Later features could include communications to build out functionality similar to a CRM.
+The Volunteer Core project is a web app that assists in better management of Volunteer Core operations. It will track and provide matching suggestions of volunteer opportunities for volunteers, and volunteers. Later features could include communications to build out functionality similar to a CRM.
 
 # API
 
@@ -24,7 +24,6 @@ Header example:
 ## Resources
 * Token
 * User
-* Partners
 * Opportunities
 * Tags
 * Tag Categories
@@ -72,31 +71,6 @@ Endpoint | Method Type | Auth Required | Arguments | Description
 
 ---
 
-### Partners
-#### Variables
-
-Name | Datatype | Request/Return | Example | Notes
------|----------|----------------|---------|------
-id | Integer | Both | id=34 | Auto-generated if left blank at POST
-name | String | Both | name='Best Partner' | Required for POST
-opportunity_count | Integer | Return | "opportunity_count": 7 |
-page | Integer | Both | page=2 | Gives the 2nd page of paginated return
-per_page | Integer | Both | per_page=25 | When specified in the request, returns number of items per page.
-search | String | Request | ?search='dining' | Returns partners with name matching the search variable.
-token | String | Request | See Authentication | Required for Token protected endpoints
-
-#### Endpoints
-
-Endpoint | Method Type | Auth Required | Arguments | Description
----------|-------------|---------------|-----------|------------
-/api/partners/{id} | GET | | | Returns partner data specified by id
-/api/partners | GET | | page, per_page, search | Returns all partners paginated and filtered by search
-/api/partners | POST | Token | | Create a new partner
-/api/partners/{id} | PUT | Token | | Update existing partner specified by id
-/api/partners/{id} | DELETE | Token | | Delete partner specified by id
-
----
-
 ### Opportunities
 #### Variables
 
@@ -116,15 +90,13 @@ location_street | String | Both | location_street='123 4th St' | Optional
 location_city | String | Both | location_city='CO' | Optional
 location_zip | String | Both | location_zip='12345' | Optional
 tag_count | Integer | Return | "tag_count": 0 |
-partner_name | String | Request | partner_name='Best partner' | Required for POST, stored as partner_id
-partner_string | String | Return | "partner_string": "Best Partner" | Used to store string name of partner for search indexing
 frequency_unit | String | Both | frequency_unit='Days' | Optional
 frequency_modifier | String | Both | frequency_modifier='1st' | Optional
 tags | List | Both | tags=['Cooking','Bookkeeping'] | Optional, returns grouped by tag category
 tag_string | String | Return | | Used to store tags in string for search indexing
 page | Integer | Both | page=2 | Gives the 2nd page of paginated return
 per_page | Integer | Both | per_page=25 | When specified in the request, returns number of items per page.
-search | String | Request | ?search='dining' | Returns opportunties with name, location_city, location_zip, tags_string, or partner_string matching the search variable.
+search | String | Request | ?search='dining' | Returns opportunties with name, location_city, location_zip, or tags_string  matching the search variable.
 
 #### Endpoints
 
@@ -188,7 +160,6 @@ Endpoint: /api/import/opportunities
 
 Column names:
 * opportunity
-* partner
 * location_street1
 * location_street2
 * location_city

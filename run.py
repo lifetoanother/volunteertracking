@@ -1,7 +1,7 @@
 from volunteercore import create_app, db, cli
 from volunteercore.auth.models import Role, User
-from volunteercore.volops.models import Partner, Opportunity, \
-    TagCategory, Tag
+from volunteercore.volops.models import Opportunity, TagCategory, \
+        Tag, Hours
 
 app = create_app()
 cli.register(app)
@@ -13,8 +13,8 @@ def make_shell_context():
         'db': db,
         'User': User,
         'Role': Role,
-        'Partner': Partner,
         'Opportunity': Opportunity,
         'TagCategory': TagCategory,
-        'Tag': Tag
+        'Tag': Tag,
+        'Hours': Hours
     }

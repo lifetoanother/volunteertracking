@@ -2,10 +2,9 @@ from flask import jsonify, request, url_for
 from flask_login import login_required
 from volunteercore import db
 from volunteercore.api import bp
-from volunteercore.volops.models import Partner, Opportunity
+from volunteercore.volops.models import Opportunity
 from volunteercore.api.errors import bad_request
 from flask_whooshalchemyplus import index_one_record
-
 
 # API GET endpoint returns individual opportunity from given id
 @bp.route('/api/opportunities/<int:id>', methods=['GET'])
@@ -55,11 +54,7 @@ def get_opportunities_api():
 def update_opportunity_api(id):
     opportunity = Opportunity.query.get_or_404(id)
     data = request.get_json() or {}
-    if 'partner_name' in data:
-        data['partner_id'] = Partner.query.filter_by(
-            name=data['partner_name']).first().id
     opportunity.from_dict(data, new_opportunity=False)
-    opportunity.update_partner_string()
     opportunity.update_tag_strings()
     db.session.add(opportunity)
     db.session.commit()
@@ -71,19 +66,10 @@ def update_opportunity_api(id):
 @login_required
 def create_opportunity_api():
     data = request.get_json() or {}
-    if 'name' not in data or 'partner_name' not in data:
-        return bad_request('must include opportunity and partner name field')
-    if Opportunity.query.filter_by(
-            name=data['name'], partner_id=Partner.query.filter_by(
-            name=data['partner_name']).first().id).first():
-        return bad_request(
-            'this opportunity already exists with this partner')
-    data['partner_id'] = Partner.query.filter_by(
-        name=data['partner_name']).first().id
+    if 'name' not in data:
+        return bad_request('must include opportunity name field')
     opportunity = Opportunity()
     opportunity.from_dict(data, new_opportunity=True)
-    opportunity.partner_string = Partner.query.filter_by(
-        id=opportunity.partner_id).first().name
     db.session.add(opportunity)
     db.session.commit()
     index_one_record(opportunity)

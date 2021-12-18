@@ -1,11 +1,13 @@
-from flask import jsonify, request, url_for, g
+from flask import jsonify, request, url_for, g  
 from flask_httpauth import HTTPBasicAuth, HTTPTokenAuth
+from flask_session import Session
 from flask_login import current_user, login_user, logout_user, login_required
 from volunteercore import db, login_manager
 from volunteercore.api import bp
 from volunteercore.auth.models import User, Role
 from volunteercore.api.errors import bad_request, error_response
 from volunteercore.decorators import requires_roles
+from time import time
 
 basic_auth = HTTPBasicAuth()
 token_auth = HTTPTokenAuth()
@@ -77,8 +79,7 @@ def get_users_api():
     page = request.args.get('page', 1, type=int)
     per_page = min(request.args.get('per_page', 10, type=int), 100)
     data = User.to_colletion_dict(
-            User.query, page, per_page, 'api.get_partners_api',
-            include_email=include_email)
+            User.query, page, per_page, 'api.get_users_api', include_email=include_email)
     return jsonify(data)
 
 # API GET endpoint to return the authenticated user
