@@ -71,6 +71,7 @@ def update_month_hours_api(hours):
     if data == None:
         data = Hours(user_id = id, datetime = month, month_hours = 0)
         db.session.add(data)
+    # TODO race contidion? 
     data.month_hours += hours
     db.session.commit()
     return jsonify(data.to_dict()),200
