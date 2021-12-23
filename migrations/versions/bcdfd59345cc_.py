@@ -108,7 +108,7 @@ def upgrade():
     op.create_table('hours',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.Column('month_hours', sa.Integer()),
+    sa.Column('month_hours', sa.Float()),
     sa.Column('datetime',sa.String(length=6)),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')

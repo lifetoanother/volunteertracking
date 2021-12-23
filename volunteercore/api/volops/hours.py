@@ -59,7 +59,7 @@ def admin_delete_hours_api(id, month):
 # for the current month and current logged in user
 # TODO add some verification that the user actually
 # put in the hours
-@bp.route('/api/hours/month/<int:hours>',methods=['POST'])
+@bp.route('/api/hours/month/<float:hours>',methods=['POST'])
 @login_required
 def update_month_hours_api(hours):
     #This should be fine, cookies are secure in flask presumably with HMAC or signing.
@@ -83,6 +83,8 @@ def get_total_hours_api():
     id = session['user_id']
     #TODO dont have this be a oneliner
     data = [x.month_hours for x in Hours.query.filter_by(user_id = id).all() if x.month_hours != None]
+    if data == None:
+        return bad_request("this entry does not exist")
     dic = {"month_hours":sum(data),"user_id":id}
     return jsonify(dic), 200
 
@@ -93,5 +95,7 @@ def get_month_hours_api():
     id = session['user_id']
     month = datetime.now().strftime("%Y-%m")
     data = Hours.query.filter_by(user_id = id, datetime= month).first()
+    if data == None:
+        return bad_request("this entry does not exist")
     dic = {"month_hours":data.month_hours,"user_id":id, "datetime":month}
     return jsonify(dic), 200
