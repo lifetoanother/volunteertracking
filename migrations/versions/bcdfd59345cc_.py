@@ -54,10 +54,12 @@ def upgrade():
     sa.Column('token_expiration', sa.DateTime(), nullable=True),
     sa.Column('active', sa.Boolean(), nullable=True),
     sa.Column('confirmed_at', sa.DateTime(), nullable=True),
+    sa.Column('username', sa.String(length=255), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_user_email'), 'user', ['email'], unique=True)
     op.create_index(op.f('ix_user_token'), 'user', ['token'], unique=True)
+    op.create_index(op.f('ix_user_username'),'user',['username'], unique=True)
     op.create_table('opportunity',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('active', sa.Boolean(), nullable=True),
