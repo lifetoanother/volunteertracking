@@ -52,13 +52,13 @@ def login():
     if g.current_user is None:
         return error_response(401)
     login_user(g.current_user)
-    return 'user logged in', 201
+    return jsonify({"status":'user logged in'}), 201
 
 # API POST endpoint for logging out a user.
 @bp.route('/api/auth/logout', methods=['POST'])
 def logout():
     logout_user()
-    return 'user logged out', 201
+    return jsonify({"status":'user logged in'}), 201
 
 # API GET endpoint returns an individual user. The users email is only
 # returned when the include_email argument is pass as True.

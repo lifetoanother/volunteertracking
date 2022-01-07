@@ -57,9 +57,8 @@ def admin_delete_hours_api(id, month):
 
 # API POST endpoint to add to an individuals hours
 # for the current month and current logged in user
-# TODO add some verification that the user actually
-# put in the hours
 @bp.route('/api/hours/month/<float:hours>',methods=['POST'])
+@bp.route('/api/hours/month/<int:hours>',methods=['POST'])
 @login_required
 def update_month_hours_api(hours):
     #This should be fine, cookies are secure in flask presumably with HMAC or signing.
