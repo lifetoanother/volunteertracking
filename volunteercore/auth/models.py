@@ -75,14 +75,9 @@ class User(PagininatedAPIMixin, UserMixin, db.Model):
         return data
 
     def from_dict(self, data):
-        for field in ['email', 'username', 'roles']:
-            role_ids = []
-            if field in data and field == 'roles':
-                for role in data[field]:
-                    role_ids.append(Role.query.filter_by(name=role).first())
-                self.roles = role_ids
-            elif field in data:
-                setattr(self, field, data[field])
+        for field in ['email', 'username']:
+            setattr(self, field, data[field])
+
         if 'password' in data:
             self.hash_password(data['password'])
 

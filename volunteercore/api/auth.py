@@ -90,19 +90,14 @@ def get_authenticated_user_api():
         User.query.filter_by(username=current_user.username).first().to_dict(include_email=True))
 
 # API POST endpoint to create a new user
-@bp.route('/api/users', methods=['POST'])
+@bp.route('/api/users/create', methods=['POST'])
 @login_required
-@requires_roles('Admin')
 def create_user_api():
     data = request.get_json() or {}
     if 'username' not in data or 'password' not in data:
         return bad_request('must include username and password field')
     if User.query.filter_by(username=data['username']).first():
         return bad_request('this user already exists')
-    if 'roles' in data:
-        for role in data['roles']:
-            if not Role.query.filter_by(name=role).first():
-                return bad_request('that is not an existing role')
     user = User()
     user.from_dict(data)
     db.session.add(user)
