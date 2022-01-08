@@ -13,7 +13,7 @@ from volunteercore.decorators import requires_roles
 @requires_roles('Admin')
 def admin_get_total_hours_api(id):
     #TODO dont have this be a oneliner
-    data = [x.month_hours for x in Hours.query.filter_by(user_id = id).all() if x.month_hours != None]
+    data = [x.hours for x in Hours.query.filter_by(user_id = id).all() if x.hours != None]
     dic = {"hours":sum(data),"user_id":id}
     return jsonify(dic), 200
 
@@ -57,23 +57,21 @@ def admin_delete_hours_api(id, month):
 
 # API POST endpoint to add to an individuals hours
 # for the current month and current logged in user
-@bp.route('/api/hours/month/<float:hours>',methods=['POST'])
-@bp.route('/api/hours/month/<int:hours>',methods=['POST'])
+@bp.route('/api/hours/month',methods=['POST'])
 @login_required
-def update_month_hours_api(hours):
-    #This should be fine, cookies are secure in flask presumably with HMAC or signing.
-    #should probably verify this though.
+def update_month_hours_api():
+    #TODO handle if bad data is sent
+    data = request.get_json() or {}
+    if data == {}:
+        return bad_request('please supply valid json')
     id = session['user_id']
     month = datetime.now().strftime("%Y-%m")
-    data = Hours.query.filter_by(user_id = id, datetime = month).first()
-    #If our entry does not exist, create one
-    if data == None:
-        data = Hours(user_id = id, datetime = month, month_hours = 0)
-        db.session.add(data)
-    # TODO race contidion? 
-    data.month_hours += hours
+    hours = data['hours']
+    description = data['description']
+    entry = Hours(user_id = id, datetime = month, hours = hours, description = description)
+    db.session.add(entry)
     db.session.commit()
-    return jsonify(data.to_dict()),200
+    return jsonify(entry.to_dict()),200
 
 # API GET endpoint returns individuals total hours
 @bp.route('/api/hours/total', methods=['GET'])
@@ -81,20 +79,22 @@ def update_month_hours_api(hours):
 def get_total_hours_api():
     id = session['user_id']
     #TODO dont have this be a oneliner
-    data = [x.month_hours for x in Hours.query.filter_by(user_id = id).all() if x.month_hours != None]
+    data = [x.hours for x in Hours.query.filter_by(user_id = id).all() if x.hours != None]
     if data == None:
         return bad_request("this entry does not exist")
     dic = {"month_hours":sum(data),"user_id":id}
     return jsonify(dic), 200
 
 # API GET endpoint returns individuals current month hours
+# TODO add a way to check past months
 @bp.route('/api/hours/month', methods=['GET'])
 @login_required
 def get_month_hours_api():
     id = session['user_id']
     month = datetime.now().strftime("%Y-%m")
-    data = Hours.query.filter_by(user_id = id, datetime= month).first()
+    data = Hours.query.filter_by(user_id = id, datetime = month).all()
     if data == None:
         return bad_request("this entry does not exist")
-    dic = {"month_hours":data.month_hours,"user_id":id, "datetime":month}
+    data = [x.hours for x in data if x.hours != None]
+    dic = {"month_hours":sum(data),"user_id":id, "datetime":month}
     return jsonify(dic), 200

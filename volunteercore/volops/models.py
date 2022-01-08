@@ -172,30 +172,26 @@ class Tag(PagininatedAPIMixin, db.Model):
         return '<Tag {}>'.format(self.name)
 
 class Hours(PagininatedAPIMixin, db.Model):
-    #__tablename__ = 'hours'
 
-    #NEED TO CHECK IF DATETIME COLUMN
     id = db.Column(db.Integer(), primary_key=True, index=True)
     user_id = db.Column(db.Integer())
-    month_hours = db.Column(db.Integer())
+    hours = db.Column(db.Float())
+    description = db.Column(db.Text())
     #We expect a value in the format YYYY-MM
     datetime = db.Column(db.Text)
-  
-    def get_total_hours(self, name):
-        hours = sum(Hours.query.filter_by(name=name).first().hours)
-        return hours
 
     def to_dict(self):
         data = {
             "user_id":self.user_id,
-            "month_hours":self.month_hours,
-            "datetime":self.datetime
+            "hours":self.hours,
+            "datetime":self.datetime,
+            "description":self.description,
         }
         return data
     
     def from_dict(self, data):
         field_names = [
-            'month_hours','datetime','user_id'
+            'hours','datetime','user_id','description',
         ]
         for field in field_names:
             if field in data:
