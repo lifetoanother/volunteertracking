@@ -20,28 +20,9 @@ def get_opportunities_api():
     page = request.args.get('page', 1, type=int)
     per_page = min(request.args.get('per_page', 10, type=int), 100)
     search = request.args.get('search')
-    frequency_unit = request.args.get('frequency_unit')
-    frequency_modifier = request.args.get('frequency_modifier')
 
     if search:
         data = Opportunity.query.whoosh_search(search, or_=True)
-        if frequency_unit and frequency_modifier:
-            data = data.filter_by(
-                frequency_unit=frequency_unit,
-                frequency_modifier=frequency_modifier)
-        elif frequency_modifier:
-            data = data.filter_by(frequency_modifier=frequency_modifier)
-        elif frequency_unit:
-            data = data.filter_by(frequency_unit=frequency_unit)
-    elif frequency_unit and frequency_modifier:
-        data = Opportunity.query.filter_by(
-            frequency_unit=frequency_unit,
-            frequency_modifier=frequency_modifier)
-    elif frequency_modifier:
-        data = Opportunity.query.filter_by(
-            frequency_modifier=frequency_modifier)
-    elif frequency_unit:
-        data = Opportunity.query.filter_by(frequency_unit=frequency_unit)
     else:
         data = Opportunity.query
     data = Opportunity.to_colletion_dict(

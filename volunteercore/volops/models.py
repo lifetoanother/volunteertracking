@@ -19,24 +19,17 @@ class Opportunity(PagininatedAPIMixin, db.Model):
     name = db.Column(db.String(100), index=True)
     description = db.Column(db.Text())
     shift_hours = db.Column(db.Float())
-    commitment_length_months = db.Column(db.Float(2))
     start_date = db.Column(db.Date())
     end_date = db.Column(db.Date())
-    training_time_hours = db.Column(db.Integer())
     volunteers_needed = db.Column(db.Integer())
-    location_street = db.Column(db.String(100))
-    location_city = db.Column(db.String(50))
-    location_state = db.Column(db.String(20))
-    location_zip = db.Column(db.String(10))
     tags_string = db.Column(db.String(200))
-    frequency_unit = db.Column(db.String(25))
-    frequency_modifier = db.Column(db.String(5))
 
     # Many to many relations
     tags = db.relationship(
         'Tag', secondary='tags', lazy='subquery',
         backref=db.backref('opportunities', lazy=True))
 
+    #TODO actually check what this does
     def get_tags(self, categorized=True):
         if self.tags:
             if categorized:
@@ -73,18 +66,10 @@ class Opportunity(PagininatedAPIMixin, db.Model):
             'name': self.name,
             'description': self.description,
             'shift_hours': self.shift_hours,
-            'commitment_length_months': self.commitment_length_months,
             'start_date': self.start_date,
             'end_date': self.end_date,
-            'training_time_hours': self.training_time_hours,
             'volunteers_needed': self.volunteers_needed,
-            'location_street': self.location_street,
-            'location_city': self.location_city,
-            'location_state': self.location_state,
-            'location_zip': self.location_zip,
             'tag_count': len(self.tags),
-            'frequency_unit': self.frequency_unit,
-            'frequency_modifier': self.frequency_modifier
         }
         if self.tags:
             data['tags'] = self.get_tags()
@@ -93,12 +78,8 @@ class Opportunity(PagininatedAPIMixin, db.Model):
     def from_dict(self, data, new_opportunity=False):
         field_names = [
             'name', 'active', 'description', 'shift_hours',
-            'commitment_length_months', 'start_date',
-            'end_date', 'training_time_hours',
-            'volunteers_needed', 'location_street',
-            'location_city', 'location_state',
-            'location_zip', 'tag_count', 'frequency_unit', 
-            'frequency_modifier'
+            'start_date', 'end_date', 'volunteers_needed',
+            'tag_count', 
         ]
         for field in field_names:
             if field in data:
