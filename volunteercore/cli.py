@@ -1,4 +1,5 @@
 import click
+import os
 from volunteercore import db
 from volunteercore.auth.models import User, Role
 from flask_whooshalchemyplus import index_all
@@ -33,16 +34,18 @@ def register(app):
 
         def auto_create_admin():
             admin_role = Role.query.filter_by(name='Admin').first()
-            if not User.query.filter_by(username='admin').first():
-                admin = User(username='admin',
+            username = os.environ.get('ADMIN_USERNAME')
+            password = os.environ.get('ADMIN_PASSWORD')
+            if not User.query.filter_by(os.).first():
+                admin = User(username=username,
                              roles=[admin_role])
-                admin.hash_password('password')
+                admin.hash_password(password)
                 db.session.add(admin)
                 db.session.commit()
                 click.echo('Default admin user created')
             elif admin_role not in \
-            User.query.filter_by(username='admin').first().roles:
-                admin = User.query.filter_by(username='admin').first()
+            User.query.filter_by(username).first().roles:
+                admin = User.query.filter_by(username).first()
                 admin.roles.append(admin_role)
                 db.session.add(admin)
                 db.session.commit()
