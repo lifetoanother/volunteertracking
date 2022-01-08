@@ -36,7 +36,7 @@ def register(app):
             admin_role = Role.query.filter_by(name='Admin').first()
             username = os.environ.get('ADMIN_USERNAME')
             password = os.environ.get('ADMIN_PASSWORD')
-            if not User.query.filter_by(os.).first():
+            if not User.query.filter_by(username).first():
                 admin = User(username=username,
                              roles=[admin_role])
                 admin.hash_password(password)
