@@ -81,17 +81,10 @@ active | Boolean | Both | active=True |
 name | String | Both | name='Make deliveries' | Required for POST
 description | Text | Both | description='Long description' | Optional
 shift_hours | Float | Both | shift_hours=1.5 | Optional
-commitment_length_months | Float | Both | commitment_length_months=4.5 | Optional
 start_date | Date | Both | start_date=20190528 | Optional, requires YYYYMMDD format
 end_date | Date | Both | end_date=20190528 | Optional, requires YYYYMMDD format
-training_time_hours | Integer | Both | training_time_hours=4 | Optional
 volunteers_needed | Integer | Both | volunteers_needed=2 | Optional
-location_street | String | Both | location_street='123 4th St' | Optional
-location_city | String | Both | location_city='CO' | Optional
-location_zip | String | Both | location_zip='12345' | Optional
 tag_count | Integer | Return | "tag_count": 0 |
-frequency_unit | String | Both | frequency_unit='Days' | Optional
-frequency_modifier | String | Both | frequency_modifier='1st' | Optional
 tags | List | Both | tags=['Cooking','Bookkeeping'] | Optional, returns grouped by tag category
 tag_string | String | Return | | Used to store tags in string for search indexing
 page | Integer | Both | page=2 | Gives the 2nd page of paginated return
@@ -149,6 +142,27 @@ Endpoint | Method Type | Auth Required | Arguments | Description
 /api/tag_categories | POST | Token and Admin role | | Create a new tag category
 /api/tag_categories/{id} | PUT | Token and Admin role | | Update existing tag category specified by id
 /api/tag_categories/{id} | DELETE | Token and Admin role | | Delete tag category specified by id
+
+---
+
+### Hours
+#### Variables
+
+Name | Datatype | Example | Notes
+-----=----------=---------=------
+id | Integer | id=1 | Auto generated
+hours | Float | hours=1.5 | Hours for this particular volunteer period
+description | Text | description="cleaned the floors" | A brief description of what was done
+
+#### Endpoints
+
+Endpoint | Method Type | Auth Required | Arguments | Description
+---------|-------------|---------------|-----------|------------
+/api/admin/hours/total/{id} | GET | Admin | | Returns and individuals hours by id
+/api/admin/hours/{month}/{id} | GET | Admin | | Returns and individuals hours by id and month
+/api/hours/month | POST | | hours, description | Adds and entry to the current month, with hours and description passed as json
+/api/hours/total | GET | | | Returns an individuals total hours
+/api/hours/month | GET | | | Returns the hours for the current month
 
 ---
 

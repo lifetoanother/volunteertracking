@@ -27,34 +27,6 @@ def admin_get_month_hours_api(id,month):
         return bad_request('this entry does not exist')
     return jsonify(data.to_dict()),200
 
-# API PUT endpoint to manually modify an individuals hours
-#TODO this needs work
-@bp.route('/api/admin/hours/put', methods=['PUT'])
-@login_required
-@requires_roles('Admin')
-def admin_create_hours_api():
-    hours = Hours()
-    data = request.get_json() or {}
-    if data == {}:
-        return bad_request('please supply valid json')
-    hours.from_dict(data)
-    db.session.add(hours)
-    db.session.commit()
-    return jsonify(hours.to_dict())
-
-# API DELETE endpoint to delete an individual hours by id and month
-@bp.route('/api/admin/hours/<string:month>/<int:id>', methods=['DELETE'])
-@login_required
-@requires_roles('Admin')
-def admin_delete_hours_api(id, month):
-    data = Hours.query.filter_by(user_id = id, datetime = month).first()
-    if data == None:
-        return bad_request("this entry does not exist")
-    hours = Hours.query.get_or_404(id)
-    db.session.delete(hours)
-    db.session.commit()
-    return 'deleted',204
-
 # API POST endpoint to add to an individuals hours
 # for the current month and current logged in user
 @bp.route('/api/hours/month',methods=['POST'])
