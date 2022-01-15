@@ -163,6 +163,7 @@ Endpoint | Method Type | Auth Required | Arguments | Description
 /api/hours/month | POST | | hours, description | Adds and entry to the current month, with hours and description passed as json
 /api/hours/total | GET | | | Returns an individuals total hours
 /api/hours/month | GET | | | Returns the hours for the current month
+/api/hours/month/all | GET | | | Returns the a paginated version of all of the users entries
 
 ---
 

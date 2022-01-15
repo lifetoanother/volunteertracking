@@ -12,10 +12,12 @@ from volunteercore.decorators import requires_roles
 @login_required
 @requires_roles('Admin')
 def admin_get_total_hours_api(id):
-    #TODO dont have this be a oneliner
-    data = [x.hours for x in Hours.query.filter_by(user_id = id).all() if x.hours != None]
-    dic = {"hours":sum(data),"user_id":id}
-    return jsonify(dic), 200
+    hours = 0
+    for hour in Hours.query.filter_by(user_id = id).all():
+        if hour.hours != None:
+            hours += hour.hours
+    resp = {"hours":hours,"user_id":id}
+    return jsonify(resp), 200
 
 # API GET endpoint returns individuals hours for a given month
 @bp.route('/api/admin/hours/<string:month>/<int:id>',methods=['GET'])
@@ -32,7 +34,6 @@ def admin_get_month_hours_api(id,month):
 @bp.route('/api/hours/month',methods=['POST'])
 @login_required
 def update_month_hours_api():
-    #TODO handle if bad data is sent
     data = request.get_json() or {}
     if data == {}:
         return bad_request('please supply valid json')
@@ -50,7 +51,6 @@ def update_month_hours_api():
 @login_required
 def get_total_hours_api():
     id = session['user_id']
-    #TODO dont have this be a oneliner
     data = [x.hours for x in Hours.query.filter_by(user_id = id).all() if x.hours != None]
     if data == None:
         return bad_request("this entry does not exist")
@@ -58,7 +58,6 @@ def get_total_hours_api():
     return jsonify(dic), 200
 
 # API GET endpoint returns individuals current month hours
-# TODO add a way to check past months
 @bp.route('/api/hours/month', methods=['GET'])
 @login_required
 def get_month_hours_api():
@@ -70,3 +69,13 @@ def get_month_hours_api():
     data = [x.hours for x in data if x.hours != None]
     dic = {"month_hours":sum(data),"user_id":id, "datetime":month}
     return jsonify(dic), 200
+
+# API GET endpoint to return a users data paginated
+@bp.route('/api/hours/month/all')
+@login_required
+def get_paginated_user_data():
+    page = request.args.get('page',1, type=int)
+    per_page = min(request.args.get('per_page', 10, type=int), 100)
+    data = Hours.to_colletion_dict(
+            Hours.query, page, per_page, 'api.get_paginated_user_data')
+    return jsonify(data)

@@ -44,8 +44,8 @@ def register(app):
                 db.session.commit()
                 click.echo('Default admin user created')
             elif admin_role not in \
-            User.query.filter_by(username).first().roles:
-                admin = User.query.filter_by(username).first()
+            User.query.filter_by(username=username).first().roles:
+                admin = User.query.filter_by(username=username).first()
                 admin.roles.append(admin_role)
                 db.session.add(admin)
                 db.session.commit()
