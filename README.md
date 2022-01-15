@@ -1,6 +1,5 @@
 # Volunteer Core
-
-The Volunteer Core project is a web app that assists in better management of Volunteer Core operations. It will track and provide matching suggestions of volunteer partners, opportunities for volunteers, and volunteers. Later features could include communications to build out functionality similar to a CRM.
+The Volunteer Core project is a web app that assists in better management of Volunteer Core operations. It will track opportunities for volunteers, and volunteers. Later features could include communications to build out functionality similar to a CRM.
 
 ## Development Setup
 This setup is for use with local development only; production instructions will be included later. Do not use these instructions in production without turning off debug and resetting the SECRET_KEY in the .env variables.
@@ -8,8 +7,6 @@ This setup is for use with local development only; production instructions will 
 You will need [git](https://git-scm.com/downloads) to clone this repo.
 
 For the backend you need [python 3](https://www.python.org/downloads/), venv, pip, and SQLite installed. Depending where you get Python from, venv may already be included with Python.
-
-For the front end you need [NodeJS + npm](https://nodejs.org/en/download/)
 
 ### Prepare Development Enviornment
 Clone the repo and cd into the created directory
@@ -24,32 +21,7 @@ Clone the repo and cd into the created directory
 1. `flask run`
 1. You can later end the app with ctrl + c.
 
-##### Prepare and start the React Server
-1. Open a second terminal and cd into into _your-dir_/client
-1. `npm install`
-1. `npm start`
-1. You can later end the app with ctrl + c.
-
-### Prepare Production Environment
-This repo includes both the backend and frontend source for simplification of server requirements. If you would like to split the two apart, the frontend is contained in the client/ directory.
-
-This documentation is currently aimed at hosting on Heroku but can be set up in other production environments. If you succeed in other production setups please document the process and make a pull request to add to this documentation.
-
-#### Heroku Setup
-1. Create an account on [Heroku](https://www.heroku.com/) and install and set up the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli).
-1. If you haven't already, clone ths repo and cd into the directory
-1. Create the Heroku Dyno `heroku create`
-    * You can specify the dyno name with `heroku create mydynoname`
-1. Add the free Heroku Postgres addon `heroku addons:create heroku-postgresql:hobby-dev`
-1. Push the heroku-production branch to your Heroku Dyno `git push heroku heroku-production:master`
-    * In the final lines of the push to Heroku you should see a confirmation release number and a link to the deployed Heroku app.
-1. Go to the Heroku app url and login with the default admin account (user:admin, password:password). Go to the dashboard and edit the admin user to change the admin password.
-
-If you want to build the frontend yourself, rather than using the prebuilt heroku-production branch, you can make and checkout a branch and run `npm run build`. This will generate a build directory with the static frontend files. Alter the .gitignore file in client/ to allow git tracking of the build/ directory. Then commit the changes adding the build/ directory and files. Now push your branch `Heroku heroku addons:create your-branch-name:hobby-dev`
-
-
 ## Contributing
-
 We welcome new contributors.  Be sure to check out the guide on [contributing][contributing], which includes instructions on how to fork, clone, branch, commit, pull request and sync your fork.
 
 Not sure where to start? Look for [open issues][githubissue] on GitHub, or message the team on [our Slack site][slack]. If you aren't on our Slack, [click here for an invite][slackinvite].
