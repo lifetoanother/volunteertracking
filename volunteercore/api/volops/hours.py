@@ -46,6 +46,7 @@ def update_month_hours_api():
     db.session.commit()
     return jsonify(entry.to_dict()),200
 
+# CHANGED FOR TESTING
 # API GET endpoint returns individuals total hours
 @bp.route('/api/hours/total', methods=['GET'])
 @login_required
@@ -54,8 +55,9 @@ def get_total_hours_api():
     data = [x.hours for x in Hours.query.filter_by(user_id = id).all() if x.hours != None]
     if data == None:
         return bad_request("this entry does not exist")
-    dic = {"month_hours":sum(data),"user_id":id}
-    return jsonify(dic), 200
+    dic = {"total_hours":sum(data),"user_id":id}
+    response = jsonify(dic)
+    return response, 200
 
 # API GET endpoint returns individuals current month hours
 @bp.route('/api/hours/month', methods=['GET'])
@@ -68,7 +70,8 @@ def get_month_hours_api():
         return bad_request("this entry does not exist")
     data = [x.hours for x in data if x.hours != None]
     dic = {"month_hours":sum(data),"user_id":id, "datetime":month}
-    return jsonify(dic), 200
+    response = jsonify(dic)
+    return response, 200
 
 # API GET endpoint to return a users data paginated
 @bp.route('/api/hours/month/all')
@@ -76,6 +79,7 @@ def get_month_hours_api():
 def get_paginated_user_data():
     page = request.args.get('page',1, type=int)
     per_page = min(request.args.get('per_page', 10, type=int), 100)
+    id = session['user_id']
     data = Hours.to_colletion_dict(
-            Hours.query, page, per_page, 'api.get_paginated_user_data')
+            Hours.query.filter_by(user_id = id), page, per_page, 'api.get_paginated_user_data')
     return jsonify(data)

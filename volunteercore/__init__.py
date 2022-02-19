@@ -10,12 +10,10 @@ db = SQLAlchemy()
 migrate = Migrate()
 login_manager = LoginManager()
 login_manager.login_view = 'api.login'
-template_folder = os.path.join('../client/build/')
 
 def create_app(config_class=Config):
     app = Flask(__name__)
-    app.static_folder = os.path.join(template_folder, 'static/')
-    app.template_folder = template_folder
+    app.template_folder = './pages'
     app.config.from_object(config_class)
     db.init_app(app)
     migrate.init_app(app, db)
@@ -33,7 +31,8 @@ def create_app(config_class=Config):
     app.register_blueprint(errors_bp)
 
     @app.route('/')
+    @app.route('/index.html')
     def index():
         return render_template('index.html')
-
+    
     return app
