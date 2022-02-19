@@ -1,4 +1,4 @@
-version: '3.3'
+version: "3.3"
 services:
   aha-app:
     container_name: aha_app
@@ -18,11 +18,10 @@ services:
       - ./aha-nginx:/etc/nginx/conf.d
     networks:
       - web_network
-    depends_on: 
+    depends_on:
       - aha-app
 networks:
   db_network:
     driver: bridge
   web_network:
     driver: bridge
- 

@@ -1,7 +1,9 @@
 # Volunteer Core
+
 The Volunteer Core project is a web app that assists in better management of Volunteer Core operations. It will track opportunities for volunteers, and volunteers. Later features could include communications to build out functionality similar to a CRM.
 
 ## Development Setup
+
 This setup is for use with local development only; production instructions will be included later. Do not use these instructions in production without turning off debug and resetting the SECRET_KEY in the .env variables.
 
 You will need [git](https://git-scm.com/downloads) to clone this repo.
@@ -9,9 +11,11 @@ You will need [git](https://git-scm.com/downloads) to clone this repo.
 For the backend you need [python 3](https://www.python.org/downloads/), venv, pip, and SQLite installed. Depending where you get Python from, venv may already be included with Python.
 
 ### Prepare Development Enviornment
+
 Clone the repo and cd into the created directory
 
 ##### Prepare and start the Flask API
+
 1. `python3 -m venv venv`
 1. `source venv/bin/active`
 1. `pip install -r requirements.txt`
@@ -22,7 +26,8 @@ Clone the repo and cd into the created directory
 1. You can later end the app with ctrl + c.
 
 ## Contributing
-We welcome new contributors.  Be sure to check out the guide on [contributing][contributing], which includes instructions on how to fork, clone, branch, commit, pull request and sync your fork.
+
+We welcome new contributors. Be sure to check out the guide on [contributing][contributing], which includes instructions on how to fork, clone, branch, commit, pull request and sync your fork.
 
 Not sure where to start? Look for [open issues][githubissue] on GitHub, or message the team on [our Slack site][slack]. If you aren't on our Slack, [click here for an invite][slackinvite].
 
