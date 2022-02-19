@@ -1,0 +1,4 @@
+- login flow
+- admin interface
+- ability to have volunteers check-in with their hours
+

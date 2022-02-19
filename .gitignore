@@ -17,5 +17,9 @@ static/libs/*
 
 # Other stuff here
 *.db
+*.swp
+*.swn
 whoosh
 docs/_site
+flask_session/*
+node_modules/*

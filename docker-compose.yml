@@ -1,0 +1,28 @@
+version: '3.3'
+services:
+  aha-app:
+    container_name: aha_app
+    restart: always
+    env_file: .env
+    build: .
+    networks:
+      - db_network
+      - web_network
+  aha-nginx:
+    container_name: aha-nginx
+    restart: always
+    image: "nginx:latest"
+    ports:
+      - "85:85"
+    volumes:
+      - ./aha-nginx:/etc/nginx/conf.d
+    networks:
+      - web_network
+    depends_on: 
+      - aha-app
+networks:
+  db_network:
+    driver: bridge
+  web_network:
+    driver: bridge
+ 
