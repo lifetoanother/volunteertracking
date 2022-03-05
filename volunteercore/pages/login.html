@@ -24,7 +24,7 @@
     />
 
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet" />
+    <link href="static/css/sb-admin-2.min.css" rel="stylesheet" />
   </head>
 
   <body class="bg-gradient-primary">
@@ -47,7 +47,7 @@
                         <input
                           type="email"
                           class="form-control form-control-user"
-                          id="exampleInputEmail"
+                          id="InputUsername"
                           aria-describedby="emailHelp"
                           placeholder="Enter Email Address..."
                         />
@@ -56,7 +56,7 @@
                         <input
                           type="password"
                           class="form-control form-control-user"
-                          id="exampleInputPassword"
+                          id="InputPassword"
                           placeholder="Password"
                         />
                       </div>
@@ -73,25 +73,12 @@
                         </div>
                       </div>
                       <a
-                        href="index.html"
                         class="btn btn-primary btn-user btn-block"
+			id="login-button"
                       >
                         Login
                       </a>
                       <hr />
-                      <a
-                        href="index.html"
-                        class="btn btn-google btn-user btn-block"
-                      >
-                        <i class="fab fa-google fa-fw"></i> Login with Google
-                      </a>
-                      <a
-                        href="index.html"
-                        class="btn btn-facebook btn-user btn-block"
-                      >
-                        <i class="fab fa-facebook-f fa-fw"></i> Login with
-                        Facebook
-                      </a>
                     </form>
                     <hr />
                     <div class="text-center">
@@ -121,6 +108,9 @@
     <script src="static/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+    <script src="static/js/sb-admin-2.min.js"></script>
+
+    <!-- Custom script for login-->
+    <script src="static/js/login.js"></script>
   </body>
 </html>
