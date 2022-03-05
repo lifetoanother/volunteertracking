@@ -44,9 +44,9 @@ def update_month_hours_api():
     entry = Hours(user_id = id, datetime = month, hours = hours, description = description)
     db.session.add(entry)
     db.session.commit()
-    return jsonify(entry.to_dict()),200
+    response = jsonify(entry.to_dict())
+    return response,200
 
-# CHANGED FOR TESTING
 # API GET endpoint returns individuals total hours
 @bp.route('/api/hours/total', methods=['GET'])
 @login_required
@@ -57,7 +57,7 @@ def get_total_hours_api():
         return bad_request("this entry does not exist")
     dic = {"total_hours":sum(data),"user_id":id}
     response = jsonify(dic)
-    return response, 200
+    return response,200
 
 # API GET endpoint returns individuals current month hours
 @bp.route('/api/hours/month', methods=['GET'])

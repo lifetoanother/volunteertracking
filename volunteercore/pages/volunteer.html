@@ -59,7 +59,7 @@
         <li class="nav-item active">
           <a class="nav-link" href="index.html">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span></a
+            <span>Check-In</span></a
           >
         </li>
 
@@ -88,6 +88,7 @@
             aria-labelledby="headingTwo"
             data-parent="#accordionSidebar"
           >
+	    <!-- TODO THIS SHOULD BE A TEMPLATE -->
             <div class="bg-white py-2 collapse-inner rounded">
               <h6 class="collapse-header">Custom Components:</h6>
 	      <a class="collapse-item" href="index.html">Home Page</a>
@@ -214,94 +215,21 @@
             <div
               class="d-sm-flex align-items-center justify-content-between mb-4"
             >
-              <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+              <h1 class="h3 mb-0 text-gray-800">Check-In</h1>
             </div>
-
+	  <form>
+	  <div class="form-group">
+	    <label for="HoursArea">Hours spent</label>
+	    <input type="email" class="form-control" id="HoursArea" placeholder="0">
+	  </div>
+	  <div class="form-group">
+	    <label for="DescriptionArea">Describe what you did</label>
+	    <textarea class="form-control" id="DescriptionArea" rows="3"></textarea>
+	  </div>
+	</form>
+	<input class="btn btn-primary btn-large" type="button" value="Submit" id="submit-hours">
+	  </div>
             <!-- Content Row -->
-            <div class="row">
-              <!-- Hours (Monthly) Card Example -->
-              <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-primary shadow h-100 py-2">
-                  <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                      <div class="col mr-2">
-                        <div
-                          class="text-xs font-weight-bold text-primary text-uppercase mb-1"
-                        >
-                          Hours (Monthly)
-                        </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">
-                          <p class="hours-month"></p>
-                        </div>
-                      </div>
-                      <div class="col-auto">
-                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Hours (Total) Card Example -->
-              <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-success shadow h-100 py-2">
-                  <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                      <div class="col mr-2">
-                        <div
-                          class="text-xs font-weight-bold text-success text-uppercase mb-1"
-                        >
-                          Hours (Total)
-                          <div class="h5 mb-0 font-weight-bold text-gray-800">
-                            <p class="hours-total"></p>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="col-auto">
-                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Content Row -->
-            <div class="container-fluid">
-              <!-- DataTales Example -->
-              <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">
-                    Current Opportunities
-                  </h6>
-                </div>
-                <div class="card-body">
-                  <div class="table-responsive">
-                    <table
-                      class="table table-bordered"
-                      id="dataTable"
-                      width="100%"
-                      cellspacing="0"
-                    >
-                      <thead>
-                        <tr>
-                          <th>Name</th>
-                          <th>Description</th>
-                        </tr>
-                      </thead>
-                      <tfoot>
-                        <tr>
-                          <th>Name</th>
-                          <th>Description</th>
-                        </tr>
-                      </tfoot>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
           <!-- /.container-fluid -->
         </div>
         <!-- End of Main Content -->
@@ -376,5 +304,8 @@
 
     <!-- Page level plugins -->
     <script src="static/vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Custom volunteer js -->
+    <script src="static/js/volunteer.js"></script>
   </body>
 </html>

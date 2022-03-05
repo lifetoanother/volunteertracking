@@ -34,15 +34,25 @@ def create_app(config_class=Config):
     @app.route('/index')
     @app.route('/index.html')
     def index():
+        # I dont know how to get the login_manager working
         if session.get('user_id') == None:
             return redirect('login.html')
         return render_template('index.html')
-    
+
+    @app.route('/volunteer')
+    @app.route('/volunteer.html')
+    def volunteer():
+        if session.get('user_id') == None:
+            return redirect('login.html')
+        return render_template('volunteer.html')
+
     @app.route('/login')
     @app.route('/login.html')
     def login():
         if current_user.is_authenticated:
             return redirect('index.html')
         return render_template('login.html')
+    
+    
 
     return app
