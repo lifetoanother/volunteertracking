@@ -1,4 +1,4 @@
-- login flow
-- admin interface
-- ability to have volunteers check-in with their hours
-
+- admin interface; JUST USE CURL
+- ability to have volunteers check-in with their hours; ADD RESPONSIVE STUFF
+- ability to view your past check-ins
+- username safely displayed, no xss

@@ -1,7 +1,7 @@
 import os
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, session
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user, login_required
 from flask_migrate import Migrate
 from config import Config
 import flask_whooshalchemyplus
@@ -9,7 +9,7 @@ import flask_whooshalchemyplus
 db = SQLAlchemy()
 migrate = Migrate()
 login_manager = LoginManager()
-login_manager.login_view = 'api.login'
+login_manager.login_view = 'login.html'
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -31,8 +31,28 @@ def create_app(config_class=Config):
     app.register_blueprint(errors_bp)
 
     @app.route('/')
+    @app.route('/index')
     @app.route('/index.html')
     def index():
+        # I dont know how to get the login_manager working
+        if session.get('user_id') == None:
+            return redirect('login.html')
         return render_template('index.html')
+
+    @app.route('/volunteer')
+    @app.route('/volunteer.html')
+    def volunteer():
+        if session.get('user_id') == None:
+            return redirect('login.html')
+        return render_template('volunteer.html')
+
+    @app.route('/login')
+    @app.route('/login.html')
+    def login():
+        if current_user.is_authenticated:
+            return redirect('index.html')
+        return render_template('login.html')
     
+    
+
     return app
